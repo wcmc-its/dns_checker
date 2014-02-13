@@ -1,13 +1,15 @@
 require 'resolv'
 require 'net/smtp'
+require 'yaml'
 
-#Setting the comparison variables
-name = "github.com"
-nameserver = "8.8.8.8"
-correctip = "192.30.252.131"
-
-#Setting some email variables
-@recipients = ['youremail@domain.com', 'someoneelse@domain.com']
+#Loading YAML variables
+config = YAML.load_file("dns_checker_config.yml")
+name = config["dnsname"]
+nameserver = config["nameserver"]
+correctip = config["correctip"]
+@recipients = config["recipients"].split(",")
+@smtpserver = config["smtpserver"]
+@from = config["fromaddress"]
 
 #Doing the DNS check
 Resolv::DNS.open({:nameserver=>[nameserver]}) do |r|

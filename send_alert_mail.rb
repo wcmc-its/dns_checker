@@ -1,16 +1,16 @@
 require 'net/smtp'
 
 message = <<MESSAGE_END
-From: Ruby
+From: DNS Checker
 To: #{@recipients.join(",")}
 Subject: #{@subject}
 
 #{@body}
 
 Thank You,
-Your trusty ruby script
+DNS Checker
 MESSAGE_END
 
-Net::SMTP.start('smtp.yourdomain.com') do |smtp|
-  smtp.send_message message, 'ruby@yourdomain.com', @recipients
+Net::SMTP.start(@smtpserver) do |smtp|
+  smtp.send_message message, @from, @recipients
 end
