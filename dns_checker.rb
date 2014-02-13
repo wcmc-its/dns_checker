@@ -20,12 +20,10 @@ resip = $ip.first.to_s
 #Checking that the IP is correct and there is only 1
 if resip==correctip and count==1
 send = 'N'
-puts 'No'
 else
 send = 'Y'
 @subject =  "Improper #{name} DNS entry set"
 @body = "Appears that the DNS entry for #{name} has been altered\n#{$ip.join(' ')}" 
-puts 'Yes'
 end
 
 #going to send that email out if we are setting the send value
