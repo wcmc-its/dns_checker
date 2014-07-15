@@ -1,7 +1,7 @@
 #DNS Check Configuration
 #Please replace the values below based on the DNS name you want check
 dnsname: github.com #This is the name we are going to be checking
-correctip: 192.30.252.131 #This is the IP or IPs what we are going to be comparing against
+correctip: ["192.30.252.131", "192.30.252.129", "192.30.252.128"] #This is the IP or IPs what we are going to be comparing against
 nameserver: 8.8.8.8 #This is the default nameserver, Google DNS, you can specify your own
 
 #Notification configuration
