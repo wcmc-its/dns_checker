@@ -1,10 +1,11 @@
 require 'resolv'
 require 'net/smtp'
 require 'yaml'
+require_relative 'send_alert_mail'
 
 
 #Loading YAML variables
-config = YAML.load_file("dns_checker.config.yml")
+config = YAML.load_file("dns_checker_config.yml")
 name = config["dnsname"]
 nameserver = config["nameserver"]
 correctip = config["correctip"]
@@ -37,13 +38,13 @@ end
 #Checking that the IP is correct and there is only 1
 if clean.include?('N')
 	send = 'Y'
-	@subject =  "DNS entry for #{name} has changed"
-	@body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs #{resip.join(" ")}\nNew unknown IPs #{unknown.join(" ")}" 
+	subject =  "DNS entry for #{name} has changed"
+	body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs #{resip.join(" ")}\nNew unknown IPs #{unknown.join(" ")}" 
 else
 	send='N'
 end
 #going to send that email out if we are setting the send value
 if send == 'Y'
-load 'send_alert_mail.rb'
+	send_message(subject, body)#method from send_alert_mail
 else
 end
