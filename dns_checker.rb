@@ -2,32 +2,46 @@ require 'resolv'
 require 'net/smtp'
 require 'yaml'
 
+
 #Loading YAML variables
-config = YAML.load_file("dns_checker_config.yml")
+config = YAML.load_file("dns_checker.config.yml")
 name = config["dnsname"]
 nameserver = config["nameserver"]
 correctip = config["correctip"]
-@recipients = config["recipients"].split(",")
-@smtpserver = config["smtpserver"]
-@from = config["fromaddress"]
 
 #Doing the DNS check
 Resolv::DNS.open({:nameserver=>[nameserver]}) do |r|
-    $ip = r.getaddresses(name)
+    $resolvedip = r.getaddresses(name)
 end
  
 #Begining the comparison
-count = $ip.count
-resip = $ip.first.to_s
-#Checking that the IP is correct and there is only 1
-if resip==correctip and count==1
-send = 'N'
-else
-send = 'Y'
-@subject =  "Improper #{name} DNS entry set"
-@body = "Appears that the DNS entry for #{name} has been altered\n#{$ip.join(' ')}" 
+count = $resolvedip.count
+
+resip = Array.new
+$resolvedip.each do |ip|
+	resip << ip.to_s
 end
 
+unknown = Array.new
+clean = Array.new
+
+resip.each do |ip|
+	#puts ip
+ if correctip.include?(ip)
+  clean << 'Y'
+ else 
+ 	clean << 'N' 
+	unknown << ip
+ end
+end
+#Checking that the IP is correct and there is only 1
+if clean.include?('N')
+	send = 'Y'
+	@subject =  "DNS entry for #{name} has changed"
+	@body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs #{resip.join(" ")}\nNew unknown IPs #{unknown.join(" ")}" 
+else
+	send='N'
+end
 #going to send that email out if we are setting the send value
 if send == 'Y'
 load 'send_alert_mail.rb'
