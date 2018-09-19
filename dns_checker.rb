@@ -27,7 +27,7 @@ Resolv::DNS.open({:nameserver=>[nameserver]}) do |r|
 end
 
 #puts "resolved IPs #{$resolvedip.inspect}"
- 
+
 #Begining the comparison
 count = $resolvedip.count
 
@@ -44,17 +44,20 @@ resip.each do |ip|
 	#puts ip
  if correctip.include?(ip)
   clean << 'Y'
- else 
- 	clean << 'N' 
+ else
+ 	clean << 'N'
 	unknown << ip
  end
 end
 #Checking that the IP is correct and there is only 1
 if clean.include?('N')
 	send = 'Y'
+	current_ips = resip.join(" ")
+	unknown_ips = unknown.join(" ")
 #	subject =  "DNS entry for #{name} has changed"
 	subject = eval("\"" + subject + "\"")
-	body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs: #{resip.join(" ")}\nNew unknown IPs: #{unknown.join(" ")}" 
+# body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs: #{resip.join(" ")}\nNew unknown IPs: #{unknown.join(" ")}"
+	body = eval("\"" + body + "\"")
 else
 	send='N'
 end

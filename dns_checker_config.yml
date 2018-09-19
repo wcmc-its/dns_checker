@@ -1,11 +1,23 @@
 #DNS Check Configuration
 #Please replace the values below based on the DNS name you want check
 dnsname: github.com #This is the name we are going to be checking
-correctip: ["192.30.252.131", "192.30.252.129", "192.30.252.128"] #This is the IP or IPs what we are going to be comparing against
+correctip: ["192.30.252.131", "192.30.252.129", "192.30.252.128", "::1"] #This is the IP or IPs what we are going to be comparing against
 nameserver: 8.8.8.8 #This is the default nameserver, Google DNS, you can specify your own
 
 #Notification configuration
-#Please set the values for the notification functionality of DNS Checker
+#Please set the values for the e-mail notification functionality of DNS Checker
 smtpserver: smtp.domain.com #this is an smtp server in your enviroment where emails can be sent
 recipients: youremail@domain.com, someoneelse@domain.com #the indended recipients seperated by a comma
 fromaddress: ruby@yourdomain.com #This is the from address you would like your message to come from
+# the following values (subject, body, signature) are for the e-mail notification. these values are
+# passed through an eval() in ruby, so use with caution! you can use the #{string} notation to customize
+# the message that is sent in the notification e-mail.
+subject: |
+ DNS entry for #{name} has changed
+body: |
+ Appears that a new IP has been set for the DNS entry for #{name}
+ Current IPs: #{current_ips}
+ New unknown IPs: #{unknown_ips}
+signature: |
+ Thank You,
+ DNS Checker
