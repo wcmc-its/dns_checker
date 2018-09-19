@@ -5,7 +5,8 @@ require_relative 'send_alert_mail'
 
 
 #Loading YAML variables
-config = YAML.load_file("dns_checker_config.yml")
+config_file_location = File.join(File.dirname(__FILE__), '/dns_checker_config.yml')
+config = YAML.load_file(config_file_location)
 name = config["dnsname"]
 nameserver = config["nameserver"]
 correctip = config["correctip"]
