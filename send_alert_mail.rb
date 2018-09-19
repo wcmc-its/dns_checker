@@ -8,18 +8,15 @@ config = YAML.load_file("dns_checker_config.yml")
 recipients = config["recipients"].split(",")
 smtpserver = config["smtpserver"]
 from = config["fromaddress"]
+signature = config["signature"]
 
-
-message = <<MESSAGE_END
+header = <<HEADER_END
 From: DNS Checker <#{from}>
 To: #{recipients.join(",")}
 Subject: #{subject}
+HEADER_END
 
-#{body}
-
-Thank You,
-DNS Checker
-MESSAGE_END
+message = header + "\n" + body + "\n\n" + signature
 
 Net::SMTP.start(smtpserver) do |smtp|
   smtp.send_message message, from, recipients
