@@ -1,5 +1,5 @@
 # DNS Checker
-This is simple script for checking a DNS entry on a nameserver, and sending an alert if it has
+This is simple script for checking a DNS entry on a nameserver, and sending an alert if it has changed. Supports ipv4 (A) and ipv6 (AAAA) DNS records
 
 It is intended to be scheduled to run via cron job
 
