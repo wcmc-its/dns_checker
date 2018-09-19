@@ -9,6 +9,8 @@ config = YAML.load_file("dns_checker_config.yml")
 name = config["dnsname"]
 nameserver = config["nameserver"]
 correctip = config["correctip"]
+subject = config["subject"]
+body = config["body"]
 
 #puts "name #{name}"
 #puts "nameserver #{nameserver}"
@@ -50,8 +52,9 @@ end
 #Checking that the IP is correct and there is only 1
 if clean.include?('N')
 	send = 'Y'
-	subject =  "DNS entry for #{name} has changed"
-	body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs #{resip.join(" ")}\nNew unknown IPs #{unknown.join(" ")}" 
+#	subject =  "DNS entry for #{name} has changed"
+	subject = eval("\"" + subject + "\"")
+	body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs: #{resip.join(" ")}\nNew unknown IPs: #{unknown.join(" ")}" 
 else
 	send='N'
 end
