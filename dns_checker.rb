@@ -54,6 +54,7 @@ if clean.include?('N')
 	send = 'Y'
 	current_ips = resip.join(", ")
 	unknown_ips = unknown.join(", ")
+	correct_ips = correctip.join(", ")
 #	subject =  "DNS entry for #{name} has changed"
 	subject = eval("\"" + subject + "\"")
 # body = "Appears that a new IP has been set for the DNS entry for #{name}\nCurrent IPs: #{resip.join(" ")}\nNew unknown IPs: #{unknown.join(" ")}"

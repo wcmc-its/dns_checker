@@ -18,6 +18,7 @@ body: |
  Appears that a new IP has been set for the DNS entry for #{name}
  Current IPs: #{current_ips}
  New unknown IPs: #{unknown_ips}
+ Expected IPs: #{correct_ips}
 signature: |
  Thank You,
  DNS Checker
